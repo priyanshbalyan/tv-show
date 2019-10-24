@@ -4,26 +4,33 @@ import Grid from '@material-ui/core/Grid';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Typography, Link } from '@material-ui/core';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from '@material-ui/core/Button';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import * as _ from 'lodash';
+import { useTheme } from '@material-ui/core/styles';
 
 const ShowDialog = (props) => {
     let open = props.details ? true : false;
     const details = props.details ? props.details : {};
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
         <Dialog
             open={open}
             onClose={props.close}
+            fullScreen={fullScreen}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description">
             <DialogTitle>{details.name}</DialogTitle>
             <DialogContent>
                 <Grid spacing={2} container>
-                    <Grid key={1} item xs={5}>
-                        <img width={200} src={details.image ? details.image.medium : '-'} />
+                    <Grid key={1} item md={5}>
+                        <img width={200} src={details.image ? details.image.medium : '-'} /><br/>
                         <Typography variant="overline"><Link href={details.officialSite}>Official Site</Link></Typography>
                     </Grid>
-                    <Grid key={2} item xs={7}>
+                    <Grid key={2} item md={7}>
                         <Grid container>
                             <Grid item xs={6}>
                                 <Typography variant="overline">Network</Typography><br/>
@@ -62,6 +69,11 @@ const ShowDialog = (props) => {
                     </Grid>
                 </Grid>
             </DialogContent>
+            <DialogActions>
+                <Button onClick={props.close} color="primary">
+                    Close
+                </Button>
+            </DialogActions>
         </Dialog>
     );
 };
