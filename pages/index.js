@@ -3,6 +3,7 @@ import Nav from '../components/nav'
 import Grid from '@material-ui/core/Grid';
 import Show from '../components/show';
 import ShowDialog from '../components/showdialog';
+import { Typography } from '@material-ui/core';
 import * as axios from 'axios';
 
 const cardStyle = {
@@ -13,10 +14,12 @@ const cardStyle = {
 const Home = () => {
   const [shows, setShows] = useState([]);
   const [view, setView] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async (url) => {
     const response = await axios.get(url);
     setShows(response.data);
+    setLoading(false);
   };
 
   const openDialog = (showData) => {
@@ -27,6 +30,9 @@ const Home = () => {
     fetchData('http://api.tvmaze.com/schedule?country=US&date=2019-10-22');
   }, []);
 
+  if (loading) return (
+    <center><Typography>Fetching shows...</Typography></center>
+  )
   return (
     <div>
       <Nav />
